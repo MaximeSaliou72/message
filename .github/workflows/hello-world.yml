@@ -1,34 +1,37 @@
-name: Print hello World
+name: Print Hello World
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    types:
-      - labeled
-      - syncronise
+    push:
+      branches:
+        - main
+    pull_request:
+        types:
+            - labeled
+            - synchronize
 
 jobs:
-  print:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout du code
-        - uses: actions/checkout@v4
-        - uses: actions/setup-node@v4
-          with:
-            node-version: 20
-        - run: npm ci
-        - run: npm test
+    print:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout du code
+              uses: actions/checkout@v2
 
-        name: Print Hello World
+            - name: "Install PHP with extensions"
+              uses: shivammathur/setup-php@v2
+              with:
+                coverage: "xdebug"
+                extensions: "intl, mbstring, pdo_sqlite, zip"
+                php-version: 8.2
+                tools: composer:v2
+
             - name: "Install dependencies"
               run: composer install --ansi --no-interaction --no-progress
 
             - name: "Say Hello"
               uses: ./actions/print
               with:
-                who-to-greet: Maxime
+                who-to-greet: Brahim
+
     sayBye:
         runs-on: ubuntu-latest
         steps:
@@ -37,3 +40,4 @@ jobs:
 
             - name: "Say Bye"
               run: echo "Goodbye"
+            
